@@ -13,6 +13,7 @@ def send_sms(mobile):
     """发送短信验证码"""
     #检查短信发送状态，防止短时间内给用户重复发送
     key = "Vcode-%s" % mobile
+    print(key)
     if cache.get(key):
         return True                  #之前发送过验证码，直接返回True
     vcode =  gen_rand_code()         #产生验证码
@@ -27,7 +28,7 @@ def send_sms(mobile):
         result = response.json()
         print(result.get("msg"))
         if result.get("code") == "000000":
-            cache.set(key,vcode,360)                              #缓存
+            cache.set(key,vcode,10000)                              #缓存
             return True
         else:
             return False
