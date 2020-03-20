@@ -1,0 +1,29 @@
+登陆之前的访问：
+
+用户 -------------------------------------> 服务器
+    携带验证数据(手机号、验证码)
+                                            中间件 process_request:
+                                                   初始化 session 对象，将 session 添加到 request 上
+                                                   request.session = SessionStore(None)
+                                            View函数: 验证用户数据
+                                                     记录用户状态: request.session['uid'] = user.id
+                                            中间件 process_response:
+                                                    在 response 的 Cookie 中添加 session_key
+                                                    response.set_cookie('sessionid', session.session_key)
+用户 <--------------------------------------- 将 Response 发给浏览器
+
+
+后续所有的请求:
+
+用户 ----------------------------------------> 服务器
+    HTTP Header 的 Cookie 中携带 sessionid
+                                            中间件 process_request:
+                                                从 request 的 cookie 中取出 sessionid
+                                                使用 sessionid 初始化 Session 对象
+                                                request.session = SessionStore(sessionid)
+                                                                  SessionStore 从数据库中取出用户之前保存的数据
+                                            View函数:(中间键检查session)
+                                                根据 request.session 中的数据，确认之前的用户是谁
+                                                uid = request.session['uid']
+                                                user = User.objects.get(id=uid)
+用户 <-------------------------------------- 将 Response 发给浏览器
