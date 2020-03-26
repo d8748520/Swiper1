@@ -23,13 +23,7 @@ HTTP Sevrer(socket 服务器 ，控制网络链接 接收发送数据）
 
 WSGI
 
-
 web application
-
-
-
-
-
 
 
 """
@@ -52,4 +46,6 @@ class AuthMiddleware(MiddlewareMixin):
         print(uid)
         if not uid:
             return JsonResponse({"code":stat.LOGIN_REQUIRED,"data":None})
+        else:
+            request.uid = uid
 

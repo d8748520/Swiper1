@@ -10,3 +10,9 @@ YZX_SMS_ARGS = {
     "param": None,  # 验证码
     "mobile": None # 手机号
 }
+
+#七牛云配置
+QN_AccessKey = "UYa9TK0V-wLabVW7ev5gqZWnXsRb1q6LBh494T3C"
+QN_SecretKey = "eacCN0qLKU7wWyMPLioqxiKB81oz58hd7UTxu-3N"
+QN_BUCKET = "swiper-tiger"
+QN_BASE_URL = "http://q7qudtwqq.bkt.clouddn.com"

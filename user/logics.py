@@ -1,3 +1,4 @@
+from uuid import uuid4
 import random
 import requests
 from django.core.cache import cache
@@ -28,10 +29,19 @@ def send_sms(mobile):
         result = response.json()
         print(result.get("msg"))
         if result.get("code") == "000000":
-            cache.set(key,vcode,10000)                              #缓存
+            cache.set(key,vcode,360)                              #缓存
             return True
         else:
             return False
     return False
+
+def save_tmp_file(tmp_file):
+    tmp_filename = uuid4().hex
+    tmp_filepath = "/tmp/%s" % tmp_filename
+    with open(tmp_filepath,"wb") as fp:
+        for chunk in tmp_file.chunks():
+            fp.write(chunk)
+
+    return tmp_filepath,tmp_filename
 
 

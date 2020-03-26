@@ -44,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "common.middleware.AuthMiddleware",
+    "swiper.middleware.AuthMiddleware",
 ]
 
 ROOT_URLCONF = 'swiper.urls'
@@ -75,7 +75,7 @@ DATABASES = {
         'NAME': "swiper",
         "HOST":"localhost",
         "POST":3306,
-        "USER":"dzy",
+        "USER":"tiger",
         "PASSWORD":"123",
         
     }

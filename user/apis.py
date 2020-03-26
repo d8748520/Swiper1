@@ -1,9 +1,13 @@
+import os
 from django.http import JsonResponse
 from django.core.cache import cache
 from user import logics
 from common import stat
 from user.models import User
-
+from user.models import Profile
+from user.form import ProfileForm
+from user.form import UserForm
+from libs.qncloud import upload_to_qn
 
 
 # Create your views here.
@@ -43,15 +47,53 @@ def submit_vcode(request):
 
 
 def get_profile(request):
-    print("用户 ID：" ,request.session["uid"])
+    """获取用户配置"""
+    profile, _  =  Profile.objects.get_or_create(id=request.uid)
+    return JsonResponse({"code":stat.OK,"data":profile.to_dict()})
 
 
-    return JsonResponse({})
+
 def set_profile(request):
+    """修改用户信息，及用户配置"""
+    user_form = UserForm(request.POST)
+    profile_from  = ProfileForm(request.POST)
+    #验证 user 表单的数据
+    if not user_form.is_valid():
+        return JsonResponse({"code":stat.USER_FORM_ERR,"data":user_form.errors})
+    #验证 profile 表单的数据
+    if not profile_from.is_valid():
+        return JsonResponse({"code":stat.PROFILE_FORM_ERR,"data":ProfileForm.errors})
+    #修改用户数据
+    User.objects.filter(id=request.uid).update(**user_form.changed_data)
+    # 修改Profile数据
+    Profile.objects.updata_or_create(id=request.uid,defaults=profile_from.changed_data)
+    return JsonResponse({"code":stat.OK,"data":None})
+        
 
 
-    return JsonResponse({})
 def upload_avatar(request):
+    """上传个人形象"""
+    #1.接收用户图片，保存到服务器本地
+    avatar_file = request.FILES.get("avatar")
+    # print(avatar_file)
+    # print("------------------")
+    filepath,filename = logics.save_tmp_file(avatar_file)
+
+    print(filename)
+    print(filepath)
+
+
+
+    #2.上传到七牛云
+    url = upload_to_qn(filepath,filename)
+    #3.更新用户 avatar 字段
+    User.objects.filter(id=request.uid).update(avatar=url)
+
+
+
+    #4.删除本地文件
+    os.remove(filepath)
+    return JsonResponse({"code":stat.OK,"data":None})
 
 
     return JsonResponse({})
