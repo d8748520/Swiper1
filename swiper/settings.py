@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    "user"
 ]
 #中间件
 MIDDLEWARE = [
@@ -43,6 +44,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "swiper.middleware.AuthMiddleware",
 ]
 
 ROOT_URLCONF = 'swiper.urls'
@@ -72,9 +74,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "swiper",
         "HOST":"localhost",
-        "POST":"3306",
-        "USER":"dzy",
-        "POSSWORD":"123",
+        "POST":3306,
+        "USER":"tiger",
+        "PASSWORD":"123",
         
     }
 }
@@ -102,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'zh-has'#语言
+LANGUAGE_CODE = 'zh-hans'#语言
 
 TIME_ZONE = 'Asia/Shanghai'#时间
 
