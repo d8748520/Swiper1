@@ -17,6 +17,14 @@ def rcmd(uid):
 
     #TODO:过滤出已经划过的用户
 
-
     #返回最终结果
     return users
+
+
+def like_someone(uid,sid):
+    """右滑"""
+    #添加一条滑动记录（不允许重复滑动某人）
+
+
+    #检查是否可以匹配成好友
+

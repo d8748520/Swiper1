@@ -10,3 +10,19 @@ def rcmd_users(request):
     result = [user.to_dict() for user in users]
     return render_json(result)
 
+def like(request):
+    """喜欢"""
+    sid = request.POST.get("sid")
+    result = logics.like_someone(request.uid,sid)
+
+
+
+def superlike(request):
+    """超级喜欢"""
+    pass
+
+
+def dislike(request):
+    """不喜欢"""
+    pass
+
