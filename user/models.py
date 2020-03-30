@@ -40,7 +40,7 @@ class User(models.Model):
 class Profile(models.Model):
     """个人的配置及交友资料"""
     dating_gender = models.CharField(max_length=10,choices=User.GENDERS,verbose_name="性别")
-    location =  models.CharField(max_length=20,choices=User.LOCATION,verbose_name="目标城市",)
+    dating_location =  models.CharField(max_length=20,choices=User.LOCATION,verbose_name="目标城市",)
     min_distance =  models.IntegerField(default=1,verbose_name="最小查找范围",)
     max_distance =  models.IntegerField(default=2,verbose_name="最大查找范围",)
     min_dating_age =  models.IntegerField(default=18,verbose_name="最小交友年年龄",)

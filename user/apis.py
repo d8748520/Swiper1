@@ -55,17 +55,29 @@ def get_profile(request):
 def set_profile(request):
     """修改用户信息，及用户配置"""
     user_form = UserForm(request.POST)
-    profile_from  = ProfileForm(request.POST)
+    profile_form = ProfileForm(request.POST)
+
+    print(user_form.errors)
+    print("_________________________")
+    print(user_form.cleaned_data)
+    print(request.uid)
+    print(profile_form.errors)
+    print(profile_form.cleaned_data)
+
+
+
     #验证 user 表单的数据
     if not user_form.is_valid():
         return JsonResponse({"code":stat.USER_FORM_ERR,"data":user_form.errors})
     #验证 profile 表单的数据
-    if not profile_from.is_valid():
-        return JsonResponse({"code":stat.PROFILE_FORM_ERR,"data":ProfileForm.errors})
-    #修改用户数据
-    User.objects.filter(id=request.uid).update(**user_form.changed_data)
+    if not profile_form.is_valid():
+        return JsonResponse({"code":stat.PROFILE_FORM_ERR,"data":profile_form.errors})
+    #修改用户数据.
+
+    User.objects.filter(id=request.uid).update(**user_form.cleaned_data)
+
     # 修改Profile数据
-    Profile.objects.updata_or_create(id=request.uid,defaults=profile_from.changed_data)
+    Profile.objects.update_or_create(id=request.uid, defaults=profile_form.cleaned_data)
     return JsonResponse({"code":stat.OK,"data":None})
         
 
